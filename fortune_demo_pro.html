@@ -1,129 +1,38 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Fortune Demo Pro</title>
-<style>
-body{
-    background: linear-gradient(180deg,#1a1a1a,#000);
-    color:white;
-    font-family:Arial;
-    text-align:center;
-}
-h1{
-    color:gold;
-    text-shadow:0 0 10px gold;
-}
-.slot-container{
-    font-size:70px;
-    margin:20px;
-    height:100px;
-}
-button{
-    padding:12px 25px;
-    font-size:18px;
-    background:gold;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
-}
-button:hover{
-    background:orange;
-}
-.balance{
-    margin-top:15px;
-    font-size:22px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Slot Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<h1>🎰 Fortune Demo PRO</h1>
-
-<div class="slot-container" id="reels">❓ ❓ ❓</div>
-
-<button onclick="spin()" id="spinBtn">Girar (10 moedas)</button>
-
-<div class="balance">
-    Moedas: <span id="balance">200</span>
-</div>
-
-<script>
-let balance = 200;
-const bet = 10;
-
-// Probabilidade ajustável (RTP simulado ~95%)
-const symbols = [
-    {icon:"🐯", weight:5, multiplier:5},
-    {icon:"🐰", weight:10, multiplier:3},
-    {icon:"💰", weight:15, multiplier:2},
-    {icon:"⭐", weight:20, multiplier:1.5},
-    {icon:"🍀", weight:25, multiplier:1}
-];
-
-function weightedRandom(){
-    let totalWeight = symbols.reduce((sum,s)=>sum+s.weight,0);
-    let random = Math.random()*totalWeight;
-    for(let s of symbols){
-        if(random < s.weight) return s;
-        random -= s.weight;
-    }
-    return symbols[symbols.length - 1];
-}
-
-function animateSpin(callback){
-    let spins = 15;
-    let interval = setInterval(()=>{
-        let r1 = symbols[Math.floor(Math.random()*symbols.length)].icon;
-        let r2 = symbols[Math.floor(Math.random()*symbols.length)].icon;
-        let r3 = symbols[Math.floor(Math.random()*symbols.length)].icon;
-        document.getElementById("reels").innerText = r1+" "+r2+" "+r3;
-        spins--;
-        if(spins<=0){
-            clearInterval(interval);
-            callback();
-        }
-    },100);
-}
-
-function spin(){
-    if(balance < bet){
-        alert("Sem moedas! Atualize a página.");
-        return;
-    }
-
-    balance -= bet;
-    document.getElementById("spinBtn").disabled = true;
-
-    animateSpin(()=>{
-
-        let s1 = weightedRandom();
-        let s2 = weightedRandom();
-        let s3 = weightedRandom();
-
-        document.getElementById("reels").innerText =
-            s1.icon+" "+s2.icon+" "+s3.icon;
-
-        if(s1.icon===s2.icon && s2.icon===s3.icon){
-            let win = bet * s1.multiplier * 3;
-            balance += win;
-            alert("🎉 JACKPOT x"+s1.multiplier+"! +"+win.toFixed(0)+" moedas");
-
-            // Rodada bônus 20% chance
-            if(Math.random()<0.2){
-                let bonus = bet * 5;
-                balance += bonus;
-                alert("🎁 BÔNUS! +"+bonus+" moedas");
-            }
-        }
-
-        document.getElementById("balance").innerText =
-            Math.floor(balance);
-
-        document.getElementById("spinBtn").disabled = false;
-    });
-}
-</script>
-
+    <div class="slot-game">
+        <header>
+            <h1>Slot Game Adventure</h1>
+        </header>
+        <main>
+            <div class="reels">
+                <div class="reel" id="reel-1"></div>
+                <div class="reel" id="reel-2"></div>
+                <div class="reel" id="reel-3"></div>
+            </div>
+            <button id="spin-button">Spin</button>
+            <div class="controls">
+                <label for="bet-level">Bet Level:</label>
+                <select id="bet-level">
+                    <option value="1">1</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+            <div id="history"></div>
+        </main>
+        <footer>
+            <p>2026 Professional Slot Game. All Rights Reserved.</p>
+        </footer>
+        <script src="script.js"></script>
+    </div>
 </body>
 </html>
