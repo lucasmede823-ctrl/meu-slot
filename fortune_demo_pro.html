@@ -68,6 +68,7 @@ function weightedRandom(){
         if(random < s.weight) return s;
         random -= s.weight;
     }
+    return symbols[symbols.length - 1];
 }
 
 function animateSpin(callback){
